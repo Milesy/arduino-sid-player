@@ -21,6 +21,9 @@ class CmosSram {
     int dataPinCount = 8;
     ShiftRegister address;
     ShiftRegister data;
+    int cePin = 6;
+    int oePin = 7;
+    int wePin = 8;
 };
 
 #endif
