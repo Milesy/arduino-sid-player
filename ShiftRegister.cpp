@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "ShiftRegister.h"
+#include <math.h>
 
 ShiftRegister::ShiftRegister(String p_name, int p_serialPin, int p_clockPin, int p_resetPin, int p_pinCount) {
     name = p_name;
@@ -14,6 +15,34 @@ ShiftRegister::ShiftRegister(String p_name, int p_serialPin, int p_clockPin, int
 
     Serial.println("Setting reset pin HIGH.");
     digitalWriteWithDebug(resetPin, HIGH);
+
+    if (DEBUG == true) {
+        test();   
+    }
+}
+
+void ShiftRegister::test() {
+    Serial.print("Performing shift register test for [");
+    Serial.print(name);
+    Serial.print("]\n");
+    
+    long max = maxShiftRegisterValue(pinCount);
+    write(max);
+}
+
+// for 8 pins calculate ((2^8)-1) = 255 = 11111111 which allows me to send a HIGH bit to each pin.    
+long ShiftRegister::maxShiftRegisterValue(int pinCount) {
+    return powerOfTwo(pinCount) - 1;
+}
+
+long ShiftRegister::powerOfTwo(int exp) {
+    long po2 = (long)2 << (exp - 1);
+
+    Serial.print("po2 [");
+    Serial.print(po2);
+    Serial.print("]\n");
+    
+    return po2;
 }
 
 void ShiftRegister::reset() {
@@ -23,7 +52,7 @@ void ShiftRegister::reset() {
 }
 
 void ShiftRegister::clock() {
-    Serial.println("Clocking bit. HIGH to LOW.");
+    Serial.print("^");
     digitalWriteWithDebug(clockPin, HIGH);
     digitalWriteWithDebug(clockPin, LOW);
 }
@@ -31,28 +60,27 @@ void ShiftRegister::clock() {
 void ShiftRegister::digitalWriteWithDebug(int pin, int value) {
     digitalWrite(pin, value);
 
-    if (DEBUG == true && DEBUG_DELAY > 0) {
+    if ((DEBUG == true || TEST == true) && DEBUG_DELAY > 0) {
         delay(DEBUG_DELAY);
     }
 }
 
-void ShiftRegister::write(word data) {
+void ShiftRegister::write(long data) {
     String sShifting = "Shifting [";
     sShifting = sShifting + pinCount;
-    sShifting = sShifting + "] bits of word [";
+    sShifting = sShifting + "] bits of [";
     sShifting = sShifting + data;
     sShifting = sShifting + "]";
 
     Serial.println(sShifting);
 
+    Serial.print("Writing Bits: ");
+
     // shift bits for expected number of pins.
     for (int i = 0; i < pinCount; i++) {  
         int bit = (data >> ((pinCount -1) - i)) & 1; 
 
-        String sWriting = "Writing Bit: ";
-        String sData = sWriting + bit;
-
-        Serial.println(sData);
+        Serial.print(bit);
 
         if (bit == 1) {
             digitalWriteWithDebug(serialPin, HIGH);
@@ -62,4 +90,6 @@ void ShiftRegister::write(word data) {
 
         clock();
     }
+
+    Serial.print("\n");
 }
