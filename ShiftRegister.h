@@ -16,8 +16,8 @@ class ShiftRegister {
     int clockPin;
     int resetPin;
     int pinCount;
-    long DEBUG_DELAY = 200;
-    boolean DEBUG = true;
+    long DEBUG_DELAY = 0;
+    boolean DEBUG = false;
     boolean TEST = false;
     void clock();
     // move this into my own class?

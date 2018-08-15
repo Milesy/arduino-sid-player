@@ -7,7 +7,7 @@
 class CmosSram {
   public:
     CmosSram(int x);
-    void write();
+    void write(byte bytes[255]);
     void read();
   
   private:
@@ -24,6 +24,15 @@ class CmosSram {
     int cePin = 6;
     int oePin = 7;
     int wePin = 8;
+    long nextAddress = 0;
+    long getCurrentAddress();
+    void resetAddress();
+    void enableAddressSelection();
+    void selectNextAddress(boolean isWrite);
+    void startWrite();
+    void endWrite();
+    void startRead();
+    void endRead();
 };
 
 #endif

@@ -16,9 +16,9 @@ ShiftRegister::ShiftRegister(String p_name, int p_serialPin, int p_clockPin, int
     Serial.println("Setting reset pin HIGH.");
     digitalWriteWithDebug(resetPin, HIGH);
 
-    if (DEBUG == true) {
-        test();   
-    }
+    //if (DEBUG == true) {
+    //    test();   
+    //}
 }
 
 void ShiftRegister::test() {
