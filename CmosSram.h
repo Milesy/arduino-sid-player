@@ -24,7 +24,8 @@ class CmosSram {
     int cePin = 6;
     int oePin = 7;
     int wePin = 8;
-    long nextAddress = 0;
+    int tranceiverOePin = 10;
+    long nextAddress = 1;
     long getCurrentAddress();
     void resetAddress();
     void enableAddressSelection();
@@ -33,6 +34,8 @@ class CmosSram {
     void endWrite();
     void startRead();
     void endRead();
+    void writeByte(long data);
+    void disableInputOnDataBus();
 };
 
 #endif

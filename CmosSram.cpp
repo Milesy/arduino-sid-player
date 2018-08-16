@@ -12,35 +12,42 @@ CmosSram::CmosSram(int x) :
     pinMode(cePin, OUTPUT);
     pinMode(oePin, OUTPUT);
     pinMode(wePin, OUTPUT);
+
+    pinMode(tranceiverOePin, OUTPUT);
 }
 
 void CmosSram::write(byte bytes[]) {
     resetAddress();
 
-    int byteCounter = 0;
+    long data = 255;
     
-    for (int i = 0; i < 4; i++) {
-        selectNextAddress(true);    
-        startWrite();
-        data.write(bytes[byteCounter]);
-        endWrite();
-        delay(2000);
-        data.reset();
-        address.reset();
-        
-        if (byteCounter == 7) {
-            byteCounter == 0;
-        }
-        else {
-            byteCounter++;
-        }
-    }
+    writeByte(data); // Light up all the pins at address 1.
+
+    disableInputOnDataBus();
+}
+
+void CmosSram::disableInputOnDataBus() {
+    Serial.println("Disabling input on data bus");
+    delay(3000);
+    digitalWrite(tranceiverOePin, HIGH);  
+}
+
+// Won't allow me to call variable data?
+void CmosSram::writeByte(long byteToWrite) {
+    selectNextAddress(true);    
+    startWrite();
+    // Shift register interface takes a long because its capable of more than 8 bits (addresses)
+    data.write(byteToWrite);
+    endWrite();
+    delay(2000);
+    data.reset();
+    address.reset();
 }
 
 void CmosSram::read() {
     resetAddress();
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 1; i++) {
         selectNextAddress(false);    
         startRead();
         Serial.println("Initiated read");
@@ -103,5 +110,5 @@ long CmosSram::getCurrentAddress() {
 }
 
 void CmosSram::resetAddress() {
-    nextAddress = 0;
+    nextAddress = 1;
 }
