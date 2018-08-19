@@ -36,6 +36,7 @@ class CmosSram {
     void endRead();
     void writeByte(long data);
     void disableInputOnDataBus();
+    void delayOneCycle();
 };
 
 #endif

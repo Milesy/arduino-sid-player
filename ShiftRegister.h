@@ -16,7 +16,7 @@ class ShiftRegister {
     int clockPin;
     int resetPin;
     int pinCount;
-    long DEBUG_DELAY = 0;
+    long DEBUG_DELAY = 500;
     boolean DEBUG = false;
     boolean TEST = false;
     void clock();

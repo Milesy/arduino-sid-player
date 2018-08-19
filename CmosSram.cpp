@@ -19,16 +19,19 @@ CmosSram::CmosSram(int x) :
 void CmosSram::write(byte bytes[]) {
     resetAddress();
 
-    long data = 255;
-    
-    writeByte(data); // Light up all the pins at address 1.
+    long data = 1;
 
+    for (int i = 0; i < 8; i++) {
+        //writeByte(255); // Light up all the pins at address 1.
+        writeByte(bytes[i]); // Light up one pin at a time.
+    }
+    
     disableInputOnDataBus();
 }
 
 void CmosSram::disableInputOnDataBus() {
     Serial.println("Disabling input on data bus");
-    delay(3000);
+    delay(5000);
     digitalWrite(tranceiverOePin, HIGH);  
 }
 
@@ -47,7 +50,7 @@ void CmosSram::writeByte(long byteToWrite) {
 void CmosSram::read() {
     resetAddress();
 
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 8; i++) {
         selectNextAddress(false);    
         startRead();
         Serial.println("Initiated read");
@@ -66,6 +69,7 @@ void CmosSram::enableAddressSelection() {
 void CmosSram::startWrite() {
     digitalWrite(cePin, LOW);
     digitalWrite(wePin, LOW);
+    delayOneCycle();
 }
 
 void CmosSram::endWrite() {
@@ -77,6 +81,8 @@ void CmosSram::startRead() {
     // WE# is already high from address selection.
     digitalWrite(cePin, LOW);
     digitalWrite(oePin, LOW);
+    delayOneCycle();
+    delay(2000);
 }
 
 void CmosSram::endRead() {
@@ -100,6 +106,10 @@ void CmosSram::selectNextAddress(boolean forWrite) {
     Serial.print("\n");
     enableAddressSelection();
     address.write(currentAddress);
+}
+
+void CmosSram::delayOneCycle() {
+    __asm__("nop\n\t");
 }
 
 long CmosSram::getCurrentAddress() {

@@ -12,14 +12,30 @@ void setup() {
       0x40,
       0x80
     };
+
+    byte constantlyFlippingBytes[8] = {
+      0xAA,
+      0x55,
+      0xAA,
+      0x55,
+      0xAA,
+      0x55,
+      0xAA,
+      0x55
+    };
     
     initialiseSerial();
     Serial.println("in setup.");
 	  CmosSram sram(1);
 
-    sram.write(byteRange);
+    Serial.println("Waiting for 3 seconds before writing.");
+    delay(3000);
+    //sram.write(byteRange);
+    sram.write(constantlyFlippingBytes); // write 01010101 and 10101010 to see pulses on single data bus line.
 
-    flashFinish();
+    Serial.println("Waiting for 3 seconds before reading.");
+    //flashFinish();
+    delay(3000);
     
     sram.read();
 }
