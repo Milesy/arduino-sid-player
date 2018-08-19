@@ -26,7 +26,7 @@ void setup() {
     
     initialiseSerial();
     Serial.println("in setup.");
-	  CmosSram sram(1);
+    CmosSram sram(1);
 
     Serial.println("Waiting for 3 seconds before writing.");
     delay(3000);
