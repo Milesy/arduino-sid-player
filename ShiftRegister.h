@@ -1,8 +1,6 @@
 #ifndef ShiftRegister_h
 #define ShiftRegister_h
 
-#include "Arduino.h"
-
 class ShiftRegister {
   public:
     ShiftRegister(String p_name, int p_serialPin, int p_clockPin, int p_resetPin, int p_pinCount);

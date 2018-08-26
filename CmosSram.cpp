@@ -20,7 +20,22 @@ void CmosSram::write(byte bytes[]) {
     resetAddress();
 
     long data = 1;
+    auto sizea = (sizeof(bytes));
+    auto sizeb = (sizeof(bytes[0]));
+    auto size = (sizeof(bytes) / sizeof(bytes[0]));
 
+    Serial.print("A [");
+    Serial.print(sizea);
+    Serial.print("] bytes.\n");
+
+    Serial.print("B [");
+    Serial.print(sizeb);
+    Serial.print("] bytes.\n");
+    
+    Serial.print("Writing [");
+    Serial.print(size);
+    Serial.print("] bytes.\n");
+    
     for (int i = 0; i < 8; i++) {
         //writeByte(255); // Light up all the pins at address 1.
         writeByte(bytes[i]); // Light up one pin at a time.
@@ -42,7 +57,7 @@ void CmosSram::writeByte(long byteToWrite) {
     // Shift register interface takes a long because its capable of more than 8 bits (addresses)
     data.write(byteToWrite);
     endWrite();
-    delay(2000);
+    delay(1000);
     data.reset();
     address.reset();
 }
