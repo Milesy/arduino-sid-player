@@ -1,31 +1,11 @@
 #include "CmosSram.h"
+#include "Sid.h"
 #include <avr/pgmspace.h>
 
 void setup() {
-    pinMode(9, OUTPUT);
+    CmosSram sram(1);
+    Sid sid(&sram);
     
-    byte byteRange[8] = {
-      0x1,
-      0x2,
-      0x4,
-      0x8,
-      0x10,
-      0x20,
-      0x40,
-      0x80  
-    };
-
-    byte constantlyFlippingBytes[8] = {
-      0xAA,
-      0x55,
-      0xAA,
-      0x55,
-      0xAA,
-      0x55,
-      0xAA,
-      0x55
-    };
-
     const byte PROGMEM Monty_on_the_Run_01_dmp[] = {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -222,19 +202,24 @@ void setup() {
     };
     
     initialiseSerial();
-    Serial.println("in setup.");
-    CmosSram sram(1);
-
     Serial.println("Waiting for 3 seconds before writing.");
     delay(3000);
-    sram.write(byteRange);
-    //sram.write(Monty_on_the_Run_01_dmp);
-    //sram.write(constantlyFlippingBytes); // write 01010101 and 10101010 to see pulses on single data bus line.
 
-    Serial.println("Waiting for 3 seconds before reading.");
-    //flashFinish();
-    delay(3000);
+    sram.resetAddress();
+
     
+    for (int i = 0; i < 100; i++) { // use input size
+        //sram.writeByte(0x00);   
+        sram.writeByte(Monty_on_the_Run_01_dmp[i]);
+    }
+    
+    sram.disableInputOnDataBus();
+    
+    Serial.println("Waiting for 3 seconds before reading.");
+    delay(3000);
+    //flashFinish();
+    
+    sid.playSramContents();
     
 }
 

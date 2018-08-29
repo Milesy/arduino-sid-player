@@ -10,9 +10,14 @@ class Sid {
       void playSramContents();
     
   private:
-      int addressClockPin = 0;
-      int addressResetPin = 0;
-      int chipSelectPin = 0;
+      void selectNextAddress();
+      long getCurrentAddress();
+      void chipSelect();
+      int addressClockPin = 11;
+      int addressResetPin = 12;
+      int chipSelectPin = 9;
+      int addressCount = 26;
+      int nextAddress = 1;
       BinaryCounter addressCounter;
       CmosSram *sram;
 };

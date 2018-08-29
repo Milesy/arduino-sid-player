@@ -5,7 +5,7 @@
 
 class BinaryCounter {
   public:
-      BinaryCounter(int p_clockPin, int p_resetPin); // Include max count size?
+      BinaryCounter(int p_clockPin, int p_resetPin);
       void clock();
       void reset();
     

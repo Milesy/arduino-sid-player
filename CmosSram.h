@@ -8,8 +8,12 @@ class CmosSram {
   public:
     CmosSram(int x);
     void write(byte bytes[255]);
-    void read();
-  
+    boolean hasNext();
+    void readNextByte();
+    void resetAddress();
+    void writeByte(long data);
+    void disableInputOnDataBus();
+    
   private:
     int addressSerialPin = 0;
     int addressClockPin = 1;
@@ -27,15 +31,14 @@ class CmosSram {
     int tranceiverOePin = 10;
     long nextAddress = 1;
     long getCurrentAddress();
-    void resetAddress();
+    
     void enableAddressSelection();
     void selectNextAddress(boolean isWrite);
     void startWrite();
     void endWrite();
     void startRead();
     void endRead();
-    void writeByte(long data);
-    void disableInputOnDataBus();
+    
     void delayOneCycle();
 };
 

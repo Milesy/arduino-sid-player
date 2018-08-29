@@ -66,17 +66,17 @@ void ShiftRegister::digitalWriteWithDebug(int pin, int value) {
 }
 
 void ShiftRegister::write(long data) {
-    String sShifting = "Shifting [";
-    sShifting = sShifting + pinCount;
-    sShifting = sShifting + "] bits of [";
-    sShifting = sShifting + data;
-    sShifting = sShifting + "]";
-
-    Serial.println(sShifting);
+    //String sShifting = "[Shift Register ";
+    //sShifting = sShifting + name;
+    //sShifting = sShifting  + "] Shifting [";
+    //sShifting = sShifting + pinCount;
+    //sShifting = sShifting + "] bits of [";
+    //sShifting = sShifting + data;
+    //sShifting = sShifting + "]";
+    //Serial.println(sShifting);
 
     Serial.print("Writing Bits: ");
 
-    // shift bits for expected number of pins.
     for (int i = 0; i < pinCount; i++) {  
         int bit = (data >> ((pinCount -1) - i)) & 1; 
 

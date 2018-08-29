@@ -1,4 +1,4 @@
-#include "Arduino.h"
+ #include "Arduino.h"
 #include "CmosSram.h"
 
 CmosSram::CmosSram(int x) : 
@@ -15,34 +15,13 @@ CmosSram::CmosSram(int x) :
 
     pinMode(tranceiverOePin, OUTPUT);
 }
+// need to call write with one byte? and reset address outside?
 
-void CmosSram::write(byte bytes[]) {
-    resetAddress();
-
-    long data = 1;
-    auto sizea = (sizeof(bytes));
-    auto sizeb = (sizeof(bytes[0]));
-    auto size = (sizeof(bytes) / sizeof(bytes[0]));
-
-    Serial.print("A [");
-    Serial.print(sizea);
-    Serial.print("] bytes.\n");
-
-    Serial.print("B [");
-    Serial.print(sizeb);
-    Serial.print("] bytes.\n");
+void CmosSram::write(byte PROGMEM bytes[]) {
     
-    Serial.print("Writing [");
-    Serial.print(size);
-    Serial.print("] bytes.\n");
-    
-    for (int i = 0; i < 8; i++) {
-        //writeByte(255); // Light up all the pins at address 1.
-        writeByte(bytes[i]); // Light up one pin at a time.
-    }
-    
-    disableInputOnDataBus();
 }
+
+
 
 void CmosSram::disableInputOnDataBus() {
     Serial.println("Disabling input on data bus");
@@ -50,7 +29,6 @@ void CmosSram::disableInputOnDataBus() {
     digitalWrite(tranceiverOePin, HIGH);  
 }
 
-// Won't allow me to call variable data?
 void CmosSram::writeByte(long byteToWrite) {
     selectNextAddress(true);    
     startWrite();
@@ -60,19 +38,6 @@ void CmosSram::writeByte(long byteToWrite) {
     delay(1000);
     data.reset();
     address.reset();
-}
-
-void CmosSram::read() {
-    resetAddress();
-
-    for (int i = 0; i < 8; i++) {
-        selectNextAddress(false);    
-        startRead();
-        Serial.println("Initiated read");
-        endRead();
-        delay(2000);
-        address.reset();
-    }
 }
 
 void CmosSram::enableAddressSelection() {
@@ -107,7 +72,7 @@ void CmosSram::endRead() {
 
 void CmosSram::selectNextAddress(boolean forWrite) {
     long currentAddress = getCurrentAddress();
-    Serial.print("Selecting Address No [");
+    Serial.print("[SRAM] Selecting Address No [");
     Serial.print(currentAddress);
     Serial.print("] for ");
 
@@ -122,6 +87,18 @@ void CmosSram::selectNextAddress(boolean forWrite) {
     enableAddressSelection();
     address.write(currentAddress);
 }
+
+boolean CmosSram::hasNext() {
+    return nextAddress < 1000; // Needs to be the actual size we wrote.
+}
+
+void CmosSram::readNextByte() {
+    selectNextAddress(false);
+    Serial.print("[SRAM] Reading byte from address [");
+    Serial.print(nextAddress-1);
+    Serial.print("]\n");      
+}
+    
 
 void CmosSram::delayOneCycle() {
     __asm__("nop\n\t");
