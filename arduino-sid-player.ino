@@ -2,11 +2,7 @@
 #include "Sid.h"
 #include <avr/pgmspace.h>
 
-void setup() {
-    CmosSram sram(1);
-    Sid sid(&sram);
-    
-    const byte PROGMEM Monty_on_the_Run_01_dmp[] = {
+const byte Monty_on_the_Run_01_dmp[] PROGMEM = {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x0f, 0x40, 0x9c, 0x00, 0x08, 0x41, 0x04, 0x40, 0x41, 0x41, 0xa0, 0x0b,
@@ -199,7 +195,11 @@ void setup() {
         0x41, 0x09, 0x70, 0x00, 0x00, 0x00, 0x0f, 0xf0, 0xa7, 0x00, 0x08, 0x41,
         0x04, 0x40, 0x41, 0x4c, 0x00, 0x09, 0x40, 0x3f, 0xff, 0x42, 0x03, 0x00,
         0x0b, 0x41, 0x09, 0x70, 0x00, 0x00, 0x00, 0x0f, 0x2c, 0xa9, 0x00, 0x08
-    };
+};
+    
+void setup() {
+    CmosSram sram(1);
+    Sid sid(&sram);
     
     initialiseSerial();
     Serial.println("Waiting for 3 seconds before writing.");
@@ -207,10 +207,20 @@ void setup() {
 
     sram.resetAddress();
 
+    boolean flip = false;
     
-    for (int i = 0; i < 100; i++) { // use input size
-        //sram.writeByte(0x00);   
-        sram.writeByte(Monty_on_the_Run_01_dmp[i]);
+    for (int i = 0; i < 16; i++) { // use input size
+        if (flip) {
+            sram.writeByte(0xFF); 
+        }
+        else {
+            sram.writeByte(0x00);
+        }
+
+        flip = !flip;
+        
+        //byte readByte =  pgm_read_byte_near(Monty_on_the_Run_01_dmp + i);   
+        //sram.writeByte(readByte);
     }
     
     sram.disableInputOnDataBus();

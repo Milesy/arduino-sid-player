@@ -13,6 +13,8 @@ class CmosSram {
     void resetAddress();
     void writeByte(long data);
     void disableInputOnDataBus();
+    void startRead();
+    void endRead();
     
   private:
     int addressSerialPin = 0;
@@ -36,8 +38,6 @@ class CmosSram {
     void selectNextAddress(boolean isWrite);
     void startWrite();
     void endWrite();
-    void startRead();
-    void endRead();
     
     void delayOneCycle();
 };

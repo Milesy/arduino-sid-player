@@ -17,7 +17,7 @@ CmosSram::CmosSram(int x) :
 }
 // need to call write with one byte? and reset address outside?
 
-void CmosSram::write(byte PROGMEM bytes[]) {
+void CmosSram::write(byte bytes[]) {
     
 }
 
@@ -89,7 +89,7 @@ void CmosSram::selectNextAddress(boolean forWrite) {
 }
 
 boolean CmosSram::hasNext() {
-    return nextAddress < 1000; // Needs to be the actual size we wrote.
+    return nextAddress < 16; // Needs to be the actual size we wrote.
 }
 
 void CmosSram::readNextByte() {

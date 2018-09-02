@@ -15,8 +15,10 @@ void Sid::playSramContents() {
     sram->resetAddress();
     while(sram->hasNext()) {
         selectNextAddress();
+        sram->startRead();
         sram->readNextByte();
         chipSelect();
+        sram->endRead();
     }  
 }
 
@@ -45,7 +47,8 @@ long Sid::getCurrentAddress() {
 }
 
 void Sid::chipSelect() {
+    Serial.println("[SID] chip select.");
     digitalWrite(chipSelectPin, LOW);
+    delay(200);
     digitalWrite(chipSelectPin, HIGH);
 }
-
