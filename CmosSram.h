@@ -31,7 +31,7 @@ class CmosSram {
     int oePin = 7;
     int wePin = 8;
     int tranceiverOePin = 10;
-    long nextAddress = 1;
+    long nextAddress = 0;
     long getCurrentAddress();
     
     void enableAddressSelection();

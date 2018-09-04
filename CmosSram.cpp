@@ -21,8 +21,6 @@ void CmosSram::write(byte bytes[]) {
     
 }
 
-
-
 void CmosSram::disableInputOnDataBus() {
     Serial.println("Disabling input on data bus");
     delay(5000);
@@ -32,10 +30,9 @@ void CmosSram::disableInputOnDataBus() {
 void CmosSram::writeByte(long byteToWrite) {
     selectNextAddress(true);    
     startWrite();
-    // Shift register interface takes a long because its capable of more than 8 bits (addresses)
     data.write(byteToWrite);
     endWrite();
-    delay(1000);
+    //delay(100);
     data.reset();
     address.reset();
 }
@@ -62,7 +59,7 @@ void CmosSram::startRead() {
     digitalWrite(cePin, LOW);
     digitalWrite(oePin, LOW);
     delayOneCycle();
-    delay(2000);
+    //delay(200);
 }
 
 void CmosSram::endRead() {
@@ -89,7 +86,8 @@ void CmosSram::selectNextAddress(boolean forWrite) {
 }
 
 boolean CmosSram::hasNext() {
-    return nextAddress < 16; // Needs to be the actual size we wrote.
+    // 448750
+    return nextAddress < 20000; // Needs to be the actual size we wrote.
 }
 
 void CmosSram::readNextByte() {
@@ -112,5 +110,5 @@ long CmosSram::getCurrentAddress() {
 }
 
 void CmosSram::resetAddress() {
-    nextAddress = 1;
+    nextAddress = 0;
 }

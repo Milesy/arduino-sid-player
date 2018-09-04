@@ -1,10 +1,4 @@
-#include "CmosSram.h"
-#include "Sid.h"
-#include <avr/pgmspace.h>
-
-// const byte Monty_on_the_Run_ARDUINO_dmp[30000] PROGMEM = {
-
-const byte Monty_on_the_Run_ARDUINO_dmp[20000] PROGMEM = {
+unsigned char Monty_on_the_Run_ARDUINO_dmp[] = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x0f, 0x40, 0x9c, 0x00, 0x08, 0x41, 0x04, 0x40, 0x41, 0x41, 0xa0, 0x0b,
@@ -1674,51 +1668,3 @@ const byte Monty_on_the_Run_ARDUINO_dmp[20000] PROGMEM = {
   0x0b, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0f
 };
 unsigned int Monty_on_the_Run_ARDUINO_dmp_len = 20000;
-  
-void setup() {
-    CmosSram sram(1);
-    Sid sid(&sram);
-    
-    initialiseSerial();
-    Serial.println("Waiting for 3 seconds before writing.");
-    delay(3000);
-
-    sram.resetAddress();
-
-    for (int i = 0; i < 20000; i++) { // use input size  
-        byte readByte =  pgm_read_byte_near(Monty_on_the_Run_ARDUINO_dmp + i);   
-        sram.writeByte(readByte);
-    }
-    
-    sram.disableInputOnDataBus();
-    
-    Serial.println("Waiting for 3 seconds before reading.");
-    delay(3000);
-    //flashFinish();
-    
-    sid.playSramContents();
-    
-}
-
-void initialiseSerial() {
-    Serial.begin(9600);
-    while(!Serial);
-}
-
-void flashFinish() {
-    digitalWrite(9, HIGH);
-    delay(200);
-    digitalWrite(9, LOW);
-    delay(200);
-    digitalWrite(9, HIGH);
-    delay(200);
-    digitalWrite(9, LOW);
-    delay(200);
-    digitalWrite(9, HIGH);
-    delay(200);
-    digitalWrite(9, LOW);
-    delay(200);
-}
-
-void loop() {
-}

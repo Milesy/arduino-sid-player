@@ -38,9 +38,9 @@ long ShiftRegister::maxShiftRegisterValue(int pinCount) {
 long ShiftRegister::powerOfTwo(int exp) {
     long po2 = (long)2 << (exp - 1);
 
-    Serial.print("po2 [");
-    Serial.print(po2);
-    Serial.print("]\n");
+    //Serial.print("po2 [");
+    ///Serial.print(po2);
+    //Serial.print("]\n");
     
     return po2;
 }
@@ -66,14 +66,6 @@ void ShiftRegister::digitalWriteWithDebug(int pin, int value) {
 }
 
 void ShiftRegister::write(long data) {
-    //String sShifting = "[Shift Register ";
-    //sShifting = sShifting + name;
-    //sShifting = sShifting  + "] Shifting [";
-    //sShifting = sShifting + pinCount;
-    //sShifting = sShifting + "] bits of [";
-    //sShifting = sShifting + data;
-    //sShifting = sShifting + "]";
-    //Serial.println(sShifting);
 
     Serial.print("Writing Bits: ");
 
