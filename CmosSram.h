@@ -22,20 +22,20 @@ class CmosSram {
     int addressSerialPin = 0;
     int addressClockPin = 1;
     int addressResetPin = 2;
-    int addressPinCount = 19;
     int dataSerialPin = 3;
     int dataClockPin = 4;
     int dataResetPin = 5;
-    int tranceiverOePin = 10;
+    int tranceiverOePin = A0;
     int cePin = 6;
     int oePin = 7;
     int wePin = 8;
-    
+
+    int addressPinCount = 19;
     int dataPinCount = 8;
     ShiftRegister address;
     ShiftRegister data;
     long nextAddress = 0;
-    int byteCount = 0;
+    long byteCount = 0;
     long getCurrentAddress();
     void enableAddressSelection();
     void selectNextAddress(boolean isWrite);

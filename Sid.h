@@ -11,8 +11,8 @@ class Sid {
     
   private:
       // GPIO Pins
-      int addressClockPin = 11;
-      int addressResetPin = 12;
+      int addressClockPin = A1;
+      int addressResetPin = A2;
       int chipSelectPin = 9;
       
       void selectNextAddress();

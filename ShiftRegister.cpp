@@ -54,7 +54,6 @@ void ShiftRegister::clock() {
 }
 
 void ShiftRegister::write(long data) {
-
     //Serial.print("[");
     //Serial.print(name);
     //Serial.print("]");

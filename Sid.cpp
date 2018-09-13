@@ -13,7 +13,6 @@ Sid::Sid(CmosSram *p_sram) :
 
 void Sid::playSramContents() {
     Serial.println("[SID] Playing contents of SRAM onto SID.");
-    // Select SID address. Binary counter
     delay(5000);
     sram->resetAddress();
     
@@ -23,8 +22,9 @@ void Sid::playSramContents() {
         sram->startRead();
         chipSelect();
         sram->endRead();
-        //delay(0.5);
     }  
+
+    Serial.println("[SID] Finished playing contents of SRAM onto SID.");
 }
 
 void Sid::selectNextAddress() {
