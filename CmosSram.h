@@ -10,6 +10,7 @@ class CmosSram {
     void write(byte bytes[255]);
     boolean hasNext();
     void readNextByte();
+    void reset();
     void resetAddress();
     void writeByte(long data);
     void disableInputOnDataBus();
@@ -32,13 +33,12 @@ class CmosSram {
     int wePin = 8;
     int tranceiverOePin = 10;
     long nextAddress = 0;
+    int byteCount = 0;
     long getCurrentAddress();
-    
     void enableAddressSelection();
     void selectNextAddress(boolean isWrite);
     void startWrite();
     void endWrite();
-    
     void delayOneCycle();
 };
 

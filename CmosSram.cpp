@@ -35,6 +35,7 @@ void CmosSram::writeByte(long byteToWrite) {
     //delay(100);
     data.reset();
     address.reset();
+    byteCount++;
 }
 
 void CmosSram::enableAddressSelection() {
@@ -86,15 +87,14 @@ void CmosSram::selectNextAddress(boolean forWrite) {
 }
 
 boolean CmosSram::hasNext() {
-    // 448750
-    return nextAddress < 20000; // Needs to be the actual size we wrote.
+    return nextAddress < byteCount; 
 }
 
 void CmosSram::readNextByte() {
     selectNextAddress(false);
-    Serial.print("[SRAM] Reading byte from address [");
-    Serial.print(nextAddress-1);
-    Serial.print("]\n");      
+    //Serial.print("[SRAM] Reading byte from address [");
+    //Serial.print(nextAddress-1);
+    //Serial.print("]\n");      
 }
     
 
@@ -111,4 +111,9 @@ long CmosSram::getCurrentAddress() {
 
 void CmosSram::resetAddress() {
     nextAddress = 0;
+}
+
+void CmosSram::reset() {
+    resetAddress();
+    byteCount = 0;
 }

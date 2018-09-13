@@ -13,8 +13,8 @@ ShiftRegister::ShiftRegister(String p_name, int p_serialPin, int p_clockPin, int
     pinMode(clockPin, OUTPUT);
     pinMode(resetPin, OUTPUT);
 
-    Serial.println("Setting reset pin HIGH.");
-    digitalWriteWithDebug(resetPin, HIGH);
+    //Serial.println("Setting reset pin HIGH.");
+    digitalWrite(resetPin, HIGH);
 
     //if (DEBUG == true) {
     //    test();   
@@ -37,51 +37,43 @@ long ShiftRegister::maxShiftRegisterValue(int pinCount) {
 
 long ShiftRegister::powerOfTwo(int exp) {
     long po2 = (long)2 << (exp - 1);
-
-    //Serial.print("po2 [");
-    ///Serial.print(po2);
-    //Serial.print("]\n");
     
     return po2;
 }
 
 void ShiftRegister::reset() {
-    Serial.println("Resetting register. LOW to HIGH.");
-    digitalWriteWithDebug(resetPin, LOW);
-    digitalWriteWithDebug(resetPin, HIGH);
+    //Serial.println("Resetting register. LOW to HIGH.");
+    digitalWrite(resetPin, LOW);
+    digitalWrite(resetPin, HIGH);
 }
 
 void ShiftRegister::clock() {
-    Serial.print("^");
-    digitalWriteWithDebug(clockPin, HIGH);
-    digitalWriteWithDebug(clockPin, LOW);
-}
-
-void ShiftRegister::digitalWriteWithDebug(int pin, int value) {
-    digitalWrite(pin, value);
-
-    if ((DEBUG == true || TEST == true) && DEBUG_DELAY > 0) {
-        delay(DEBUG_DELAY);
-    }
+    //Serial.print("^");
+    digitalWrite(clockPin, HIGH);
+    digitalWrite(clockPin, LOW);
 }
 
 void ShiftRegister::write(long data) {
 
-    Serial.print("Writing Bits: ");
+    //Serial.print("[");
+    //Serial.print(name);
+    //Serial.print("]");
+    
+    //Serial.print("Writing Bits: ");
 
     for (int i = 0; i < pinCount; i++) {  
         int bit = (data >> ((pinCount -1) - i)) & 1; 
 
-        Serial.print(bit);
+        //Serial.print(bit);
 
         if (bit == 1) {
-            digitalWriteWithDebug(serialPin, HIGH);
+            digitalWrite(serialPin, HIGH);
         } else {
-            digitalWriteWithDebug(serialPin, LOW);
+            digitalWrite(serialPin, LOW);
         }
 
         clock();
     }
 
-    Serial.print("\n");
+    //Serial.print("\n");
 }

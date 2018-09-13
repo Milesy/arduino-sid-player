@@ -16,7 +16,7 @@ class Sid {
       int addressClockPin = 11;
       int addressResetPin = 12;
       int chipSelectPin = 9;
-      int addressCount = 26;
+      int addressCount = 25;
       int nextAddress = 0;
       BinaryCounter addressCounter;
       CmosSram *sram;

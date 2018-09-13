@@ -6,6 +6,9 @@ Sid::Sid(CmosSram *p_sram) :
     sram = p_sram;
     pinMode(chipSelectPin, OUTPUT);
     digitalWrite(chipSelectPin, HIGH);  
+
+    Serial.println("[SID] Resetting address bus.");
+    addressCounter.reset();    
 }
 
 void Sid::playSramContents() {
@@ -13,27 +16,14 @@ void Sid::playSramContents() {
     // Select SID address. Binary counter
     delay(5000);
     sram->resetAddress();
+    
     while(sram->hasNext()) {
-        //Serial.println("selectNextAddress");
         selectNextAddress();
-        //delay(10000);
-
-        //Serial.println("readNextByte");
         sram->readNextByte();
-        //delay(10000);
-        
-        //Serial.println("startRead");
         sram->startRead();
-        //delay(10000);
-
-        //Serial.println("chipSelect");
         chipSelect();
-        //delay(10000);
-        
-        //Serial.println("endRead");
         sram->endRead();
-
-        delay(50);
+        //delay(0.5);
     }  
 }
 
@@ -54,7 +44,7 @@ long Sid::getCurrentAddress() {
     long currentAddress = nextAddress;
     nextAddress++;
 
-    if (nextAddress > addressCount) {
+    if (nextAddress >= addressCount) {
         nextAddress = 0;
     }
     
@@ -62,8 +52,8 @@ long Sid::getCurrentAddress() {
 }
 
 void Sid::chipSelect() {
-    Serial.println("[SID] chip select.");
+    //Serial.println("[SID] chip select.");
     digitalWrite(chipSelectPin, LOW);
-    delay(1);
+    delay(0.3);
     digitalWrite(chipSelectPin, HIGH);
 }

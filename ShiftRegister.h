@@ -18,8 +18,6 @@ class ShiftRegister {
     boolean DEBUG = false;
     boolean TEST = false;
     void clock();
-    // move this into my own class?
-    void digitalWriteWithDebug(int pin, int value);
     long powerOfTwo(int exp);
     long maxShiftRegisterValue(int pinCount);
 };
