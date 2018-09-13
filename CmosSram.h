@@ -18,6 +18,7 @@ class CmosSram {
     void endRead();
     
   private:
+    // GPIO Pins
     int addressSerialPin = 0;
     int addressClockPin = 1;
     int addressResetPin = 2;
@@ -25,13 +26,14 @@ class CmosSram {
     int dataSerialPin = 3;
     int dataClockPin = 4;
     int dataResetPin = 5;
-    int dataPinCount = 8;
-    ShiftRegister address;
-    ShiftRegister data;
+    int tranceiverOePin = 10;
     int cePin = 6;
     int oePin = 7;
     int wePin = 8;
-    int tranceiverOePin = 10;
+    
+    int dataPinCount = 8;
+    ShiftRegister address;
+    ShiftRegister data;
     long nextAddress = 0;
     int byteCount = 0;
     long getCurrentAddress();

@@ -10,12 +10,14 @@ class Sid {
       void playSramContents();
     
   private:
-      void selectNextAddress();
-      long getCurrentAddress();
-      void chipSelect();
+      // GPIO Pins
       int addressClockPin = 11;
       int addressResetPin = 12;
       int chipSelectPin = 9;
+      
+      void selectNextAddress();
+      long getCurrentAddress();
+      void chipSelect();
       int addressCount = 25;
       int nextAddress = 0;
       BinaryCounter addressCounter;

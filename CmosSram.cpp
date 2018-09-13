@@ -4,21 +4,10 @@
 CmosSram::CmosSram(int x) : 
   address("Address bus", addressSerialPin, addressClockPin, addressResetPin, addressPinCount),
   data("Data bus", dataSerialPin, dataClockPin, dataResetPin, dataPinCount) {
-    // Can this be removed?
-    int cePin = 6;
-    int oePin = 7;
-    int wePin = 8;
-
     pinMode(cePin, OUTPUT);
     pinMode(oePin, OUTPUT);
     pinMode(wePin, OUTPUT);
-
     pinMode(tranceiverOePin, OUTPUT);
-}
-// need to call write with one byte? and reset address outside?
-
-void CmosSram::write(byte bytes[]) {
-    
 }
 
 void CmosSram::disableInputOnDataBus() {
