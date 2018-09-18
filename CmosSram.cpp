@@ -1,4 +1,4 @@
- #include "Arduino.h"
+#include "Arduino.h"
 #include "CmosSram.h"
 
 CmosSram::CmosSram(int x) : 
@@ -11,7 +11,7 @@ CmosSram::CmosSram(int x) :
 }
 
 void CmosSram::disableInputOnDataBus() {
-    Serial.println("Disabling input on data bus");
+    Serial.println("[Buffer] Disabling input on data bus.");
     delay(5000);
     digitalWrite(tranceiverOePin, HIGH);  
 }
@@ -21,7 +21,6 @@ void CmosSram::writeByte(long byteToWrite) {
     startWrite();
     data.write(byteToWrite);
     endWrite();
-    //delay(100);
     data.reset();
     address.reset();
     byteCount++;
@@ -49,7 +48,6 @@ void CmosSram::startRead() {
     digitalWrite(cePin, LOW);
     digitalWrite(oePin, LOW);
     delayOneCycle();
-    //delay(200);
 }
 
 void CmosSram::endRead() {
@@ -59,18 +57,6 @@ void CmosSram::endRead() {
 
 void CmosSram::selectNextAddress(boolean forWrite) {
     long currentAddress = getCurrentAddress();
-    Serial.print("[SRAM] Selecting Address No [");
-    Serial.print(currentAddress);
-    Serial.print("] for ");
-
-    if (forWrite == true) {
-        Serial.print("WRITE");  
-    }
-    else {
-        Serial.print("READ");
-    }
-        
-    Serial.print("\n");
     enableAddressSelection();
     address.write(currentAddress);
 }
@@ -80,10 +66,7 @@ boolean CmosSram::hasNext() {
 }
 
 void CmosSram::readNextByte() {
-    selectNextAddress(false);
-    //Serial.print("[SRAM] Reading byte from address [");
-    //Serial.print(nextAddress-1);
-    //Serial.print("]\n");      
+    selectNextAddress(false);    
 }
     
 

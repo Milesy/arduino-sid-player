@@ -9,9 +9,7 @@ void setup() {
     Sid sid(&sram);
     SdReader sdReader(10);
 
-    //char fileName[] = "monty_~1.dmp";
-    
-    char fileName[] = "comman~1.dmp";
+    char fileName[] = "R-TYPE~1.DMP";
     
     sdReader.openFile(fileName);
 
@@ -26,13 +24,10 @@ void setup() {
     sram.reset();
   
     long counter = 0;
-    long maxBytes = 50000;
-    
+    long maxBytes = 15000;
+
     while (sdReader.hasNext()) {
         byte readByte = sdReader.readByte();  
-        //Serial.print(">>>> [");
-        //Serial.print(counter);
-        //Serial.print("]\n");
         sram.writeByte(readByte);
         counter++;
     }

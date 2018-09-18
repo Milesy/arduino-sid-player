@@ -22,6 +22,7 @@ void Sid::playSramContents() {
         sram->startRead();
         chipSelect();
         sram->endRead();
+        delayMicroseconds(500);
     }  
 
     Serial.println("[SID] Finished playing contents of SRAM onto SID.");
@@ -29,9 +30,9 @@ void Sid::playSramContents() {
 
 void Sid::selectNextAddress() {
     long currentAddress = getCurrentAddress();
-    Serial.print("[SID] Selecting Address No [");
-    Serial.print(currentAddress);
-    Serial.print("]\n");
+    //Serial.print("[SID] Selecting Address No [");
+    //Serial.print(currentAddress);
+    //Serial.print("]\n");
 
     if (currentAddress == 1) {
         addressCounter.reset();    
@@ -54,6 +55,5 @@ long Sid::getCurrentAddress() {
 void Sid::chipSelect() {
     //Serial.println("[SID] chip select.");
     digitalWrite(chipSelectPin, LOW);
-    delay(0.3);
     digitalWrite(chipSelectPin, HIGH);
 }
