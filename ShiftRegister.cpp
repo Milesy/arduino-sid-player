@@ -1,24 +1,22 @@
+#include <Servo.h>
+
 #include "Arduino.h"
 #include "ShiftRegister.h"
 #include <math.h>
 
-ShiftRegister::ShiftRegister(String p_name, int p_serialPin, int p_clockPin, int p_resetPin, int p_pinCount) {
+ShiftRegister::ShiftRegister(String p_name, ArduinoPin *p_serialPin, ArduinoPin *p_clockPin, int p_resetPin, int p_pinCount) {
     name = p_name;
     serialPin = p_serialPin;
     clockPin = p_clockPin;
     resetPin = p_resetPin;
     pinCount = p_pinCount;
 
-    pinMode(serialPin, OUTPUT);
-    pinMode(clockPin, OUTPUT);
+    pinMode(serialPin->pinNumber, OUTPUT);
+    pinMode(clockPin->pinNumber, OUTPUT);
     pinMode(resetPin, OUTPUT);
 
     //Serial.println("Setting reset pin HIGH.");
     digitalWrite(resetPin, HIGH);
-
-    //if (DEBUG == true) {
-    //    test();   
-    //}
 }
 
 void ShiftRegister::test() {
@@ -48,9 +46,10 @@ void ShiftRegister::reset() {
 }
 
 void ShiftRegister::clock() {
+    volatile uint8_t *port = clockPin->port;
     //Serial.print("^");
-    digitalWrite(clockPin, HIGH);
-    digitalWrite(clockPin, LOW);
+    *port |= _BV(clockPin->physicalPin);  
+    *port &= ~_BV(clockPin->physicalPin);
 }
 
 void ShiftRegister::write(long data) {
@@ -59,16 +58,17 @@ void ShiftRegister::write(long data) {
     //Serial.print("]");
     
     //Serial.print("Writing Bits: ");
-
+    
     for (int i = 0; i < pinCount; i++) {  
         int bit = (data >> ((pinCount -1) - i)) & 1; 
 
-        //Serial.print(bit);
-
+        volatile uint8_t *port = serialPin->port;
+        
         if (bit == 1) {
-            digitalWrite(serialPin, HIGH);
+            *port |= _BV(serialPin->physicalPin);  
+            
         } else {
-            digitalWrite(serialPin, LOW);
+            *port &= ~_BV(serialPin->physicalPin);
         }
 
         clock();

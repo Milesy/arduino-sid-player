@@ -1,9 +1,11 @@
 #include "Arduino.h"
 #include "CmosSram.h"
 
+#include "ArduinoPin.h"
+
 CmosSram::CmosSram(int x) : 
-  address("Address bus", addressSerialPin, addressClockPin, addressResetPin, addressPinCount),
-  data("Data bus", dataSerialPin, dataClockPin, dataResetPin, dataPinCount) {
+  address("Address bus", &addressSerialPin, &addressClockPin, addressResetPin, addressPinCount),
+  data("Data bus", &dataSerialPin, &dataClockPin, dataResetPin, dataPinCount) {
     pinMode(cePin, OUTPUT);
     pinMode(oePin, OUTPUT);
     pinMode(wePin, OUTPUT);

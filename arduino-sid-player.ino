@@ -9,7 +9,7 @@ void setup() {
     Sid sid(&sram);
     SdReader sdReader(10);
 
-    char fileName[] = "OCEAN_~1.DMP";
+    char fileName[] = "MIDNIG~1.DMP";
     
     sdReader.openFile(fileName);
 
@@ -24,13 +24,15 @@ void setup() {
     sram.reset();
   
     long counter = 0;
-    long maxBytes = 15000;
+    long maxBytes = 50000;
     long fileSize = sdReader.getOpenedFileSize();
 
     double percentage;
     int percentageRound;
+
+    unsigned long startTime = millis();
     
-    while (sdReader.hasNext()) {
+    while (sdReader.hasNext() && counter < maxBytes) {
         byte readByte = sdReader.readByte();  
         sram.writeByte(readByte);
         
@@ -45,6 +47,13 @@ void setup() {
         
         counter++;
     }
+
+    unsigned long endTime = millis();
+    unsigned long elapsedTime = ((endTime - startTime) / 1000);
+
+    Serial.print("[SID Player] Time for load [");
+    Serial.print(elapsedTime);
+    Serial.print("secs]\n"); 
     
     sram.disableInputOnDataBus();
     
@@ -52,6 +61,7 @@ void setup() {
     delay(3000);
     
     sid.playSramContents();
+    sram.reset();
 }
 
 void initialiseSerial() {

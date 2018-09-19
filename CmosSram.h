@@ -3,6 +3,7 @@
 
 #include "Arduino.h"
 #include "ShiftRegister.h"
+#include "ArduinoPin.h"
 
 class CmosSram {
   public:
@@ -19,11 +20,44 @@ class CmosSram {
     
   private:
     // GPIO Pins
-    int addressSerialPin = 0;
-    int addressClockPin = 1;
+    const ArduinoPin addressSerialPin = [&] {
+        // Pin 0 / PORTD(PD2);
+        ArduinoPin pin;
+        pin.pinNumber = 0;
+        pin.port = &PORTD;
+        pin.physicalPin = PD2;
+        return pin;
+    }();
+
+    const ArduinoPin addressClockPin = [&] {
+        // Pin 1 / PORTD(PD3);
+        ArduinoPin pin;
+        pin.pinNumber = 1;
+        pin.port = &PORTD;
+        pin.physicalPin = PD3;
+        return pin;
+    }();
+    
     int addressResetPin = 2;
-    int dataSerialPin = 3;
-    int dataClockPin = 4;
+
+    const ArduinoPin dataSerialPin = [&] {
+        // Pin 3 / PORTD(PD0);
+        ArduinoPin pin;
+        pin.pinNumber = 3;
+        pin.port = &PORTD;
+        pin.physicalPin = PD0;
+        return pin;
+    }();
+    
+    const ArduinoPin dataClockPin = [&] {
+        // Pin 4 / PORTD(PD2);
+        ArduinoPin pin;
+        pin.pinNumber = 4;
+        pin.port = &PORTD;
+        pin.physicalPin = PD4;
+        return pin;
+    }();
+    
     int dataResetPin = 5;
     int tranceiverOePin = A0;
     int cePin = 6;

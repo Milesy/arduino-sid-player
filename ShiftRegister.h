@@ -1,17 +1,19 @@
 #ifndef ShiftRegister_h
 #define ShiftRegister_h
 
+#include "ArduinoPin.h"
+
 class ShiftRegister {
   public:
-    ShiftRegister(String p_name, int p_serialPin, int p_clockPin, int p_resetPin, int p_pinCount);
+    ShiftRegister(String p_name, ArduinoPin *p_serialPin, ArduinoPin *p_clockPin, int p_resetPin, int p_pinCount);
     void reset();
     void write(long data);
     void test();
   
   private:
     String name;
-    int serialPin;
-    int clockPin;
+    ArduinoPin *serialPin;
+    ArduinoPin *clockPin;
     int resetPin;
     int pinCount;
     long DEBUG_DELAY = 500;

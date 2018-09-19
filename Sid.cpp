@@ -26,6 +26,7 @@ void Sid::playSramContents() {
     }  
 
     Serial.println("[SID] Finished playing contents of SRAM onto SID.");
+    addressCounter.reset();
 }
 
 void Sid::selectNextAddress() {
