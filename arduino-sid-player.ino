@@ -32,7 +32,7 @@ void setup() {
 
     unsigned long startTime = millis();
     
-    while (sdReader.hasNext() && counter < maxBytes) {
+    while (sdReader.hasNext()) {
         byte readByte = sdReader.readByte();  
         sram.writeByte(readByte);
         
