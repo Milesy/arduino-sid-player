@@ -5,16 +5,15 @@
 SdReader::SdReader(int p_chipSelectPin) {
     chipSelectPin = p_chipSelectPin;
  
-    Serial.println("Initialising.");
+    Serial.println("[SD] Initialising.");
     initialised = SD.begin(chipSelectPin);
    
     if (initialised) {
-        Serial.println("Card initialised.");
+        Serial.println("[SD] Card initialised.");
         root = SD.open("/");
-        listFiles();
     }
     else {
-        Serial.println("Card initialising failed.");
+        Serial.println("[SD] Card initialising failed.");
     }
     
 }
@@ -23,17 +22,21 @@ void SdReader::openFile(const char* fileName) {
     opened = false;
     
     if (initialised) {
-        Serial.print("Opening [");        
+        Serial.print("[SD] Opening [");        
         Serial.print(fileName);
         Serial.print("]\n");
         file = SD.open(fileName);
 
         if (file) {
-            Serial.println("File is open.");
+            Serial.println("[SD] File is open.");
+            Serial.print("[SD] Size (bytes): ");
+            Serial.print(file.size());
+            Serial.print("\n");
+            
             opened = true;
         }
         else {
-            Serial.println("File is not open.");
+            Serial.println("[SD] File is not open.");
             opened = false;
         }
     }
@@ -58,13 +61,23 @@ byte SdReader::readByte() {
 
 void SdReader::closeFile() {
     if (opened) {
-        Serial.println("Closing file.");
+        Serial.println("[SD] Closing file.");
         file.close(); 
     }
 }
 
+long SdReader::getOpenedFileSize() {
+    if (opened) {
+        return file.size(); 
+    }
+    else {
+        return -1;
+    }
+}
+
+// Utility at the moment, not used.
 void SdReader::listFiles() {
-    Serial.println("Listing files.");
+    Serial.println("[SD] Listing files.");
     
     bool finished = false;
     
@@ -72,13 +85,14 @@ void SdReader::listFiles() {
         File entry =  root.openNextFile();
 
         if (entry) {
+            Serial.print("[SD] ");
             Serial.print(entry.name());
             Serial.print("\n");
 
             break;
         }
         else {
-            Serial.println("No more files.");
+            Serial.println("[SD] No more files.");
             finished = true;
         }
     } 

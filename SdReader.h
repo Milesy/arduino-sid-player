@@ -13,6 +13,7 @@ class SdReader {
       byte readByte();
       void closeFile();
       boolean isOpened();
+      long getOpenedFileSize();
     
   private:
       File root;

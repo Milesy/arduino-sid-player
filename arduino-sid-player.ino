@@ -9,32 +9,46 @@ void setup() {
     Sid sid(&sram);
     SdReader sdReader(10);
 
-    char fileName[] = "R-TYPE~1.DMP";
+    char fileName[] = "OCEAN_~1.DMP";
     
     sdReader.openFile(fileName);
 
     if (!sdReader.isOpened()) {
-        Serial.println("No file opened, unable to continue");
+        Serial.println("[SID Player] No file opened, unable to continue.");
         return;
     }
     
-    Serial.println("Waiting for 3 seconds before writing.");
+    Serial.println("[SID Player] Waiting for 3 seconds before writing.");
     delay(3000);
 
     sram.reset();
   
     long counter = 0;
     long maxBytes = 15000;
+    long fileSize = sdReader.getOpenedFileSize();
 
+    double percentage;
+    int percentageRound;
+    
     while (sdReader.hasNext()) {
         byte readByte = sdReader.readByte();  
         sram.writeByte(readByte);
+        
+        percentage = (double) (counter * 100.f) / fileSize;
+        percentageRound = (int) (percentage + 0.5);
+
+        if (counter % 40000 == 0) {
+            Serial.print("[SID Player] Load [");
+            Serial.print(percentageRound);
+            Serial.print("%]\n");             
+        }
+        
         counter++;
     }
     
     sram.disableInputOnDataBus();
     
-    Serial.println("Waiting for 3 seconds before reading.");
+    Serial.println("[SID Player] Waiting for 3 seconds before reading.");
     delay(3000);
     
     sid.playSramContents();
