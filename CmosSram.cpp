@@ -4,8 +4,8 @@
 #include "ArduinoPin.h"
 
 CmosSram::CmosSram(int x) : 
-  address("Address bus", &addressSerialPin, &addressClockPin, addressResetPin, addressPinCount),
-  data("Data bus", &dataSerialPin, &dataClockPin, dataResetPin, dataPinCount) {
+  address("Address bus", &addressChipSelectPin, &addressResetPin, addressPinCount),
+  data("Data bus", &dataChipSelectPin, &dataResetPin, dataPinCount) {
     pinMode(cePin, OUTPUT);
     pinMode(oePin, OUTPUT);
     pinMode(wePin, OUTPUT);
@@ -71,7 +71,6 @@ void CmosSram::readNextByte() {
     selectNextAddress(false);    
 }
     
-
 void CmosSram::delayOneCycle() {
     __asm__("nop\n\t");
 }

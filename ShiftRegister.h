@@ -5,7 +5,7 @@
 
 class ShiftRegister {
   public:
-    ShiftRegister(String p_name, ArduinoPin *p_serialPin, ArduinoPin *p_clockPin, int p_resetPin, int p_pinCount);
+    ShiftRegister(String p_name, ArduinoPin *p_serialPin, ArduinoPin *p_clockPin, ArduinoPin *p_resetPin, int p_pinCount);
     void reset();
     void write(long data);
     void test();
@@ -14,7 +14,7 @@ class ShiftRegister {
     String name;
     ArduinoPin *serialPin;
     ArduinoPin *clockPin;
-    int resetPin;
+    ArduinoPin *resetPin;
     int pinCount;
     long DEBUG_DELAY = 500;
     boolean DEBUG = false;

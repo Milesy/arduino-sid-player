@@ -32,7 +32,7 @@ void setup() {
 
     unsigned long startTime = millis();
     
-    while (sdReader.hasNext()) {
+    while (sdReader.hasNext() && counter < 100000) {
         byte readByte = sdReader.readByte();  
         sram.writeByte(readByte);
         
@@ -47,6 +47,8 @@ void setup() {
         
         counter++;
     }
+
+    sdReader.closeFile();
 
     unsigned long endTime = millis();
     unsigned long elapsedTime = ((endTime - startTime) / 1000);
