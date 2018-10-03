@@ -41,14 +41,16 @@ void SpiShiftRegister::disable() {
 void SpiShiftRegister::write(long data) {
     enable();
 
-    //Serial.print("[");
-    //Serial.print(name);
-    //Serial.print("] ");
+    Serial.print("[");
+    Serial.print(name);
+    Serial.print("] ");
     
-    //Serial.print("Writing: ");
-    //Serial.print(data);
+    Serial.print("Writing: ");
+    Serial.print(data);
+    Serial.print("\n");
 
-    //Serial.print("\n");
+    delay(500);
+    
     delay(1);
     disable();
     delay(1);
