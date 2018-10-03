@@ -18,6 +18,7 @@ class SpiShiftRegister {
     ArduinoPin *resetPin;
     int pinCount;
     SPISettings settings;
+    void printByte(byte b);
 };
 
 #endif

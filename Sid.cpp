@@ -22,7 +22,7 @@ void Sid::playSramContents() {
         sram->startRead();
         chipSelect();
         sram->endRead();
-        delayMicroseconds(500);
+        delayMicroseconds(600);
     }  
 
     Serial.println("[SID] Finished playing contents of SRAM onto SID.");

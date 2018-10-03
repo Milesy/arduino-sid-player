@@ -4,12 +4,13 @@
 
 SdReader::SdReader(int p_chipSelectPin) {
     chipSelectPin = p_chipSelectPin;
- 
+    pinMode(chipSelectPin, OUTPUT);
+    
     Serial.print("[SD] Initialising on CS pin [");
     Serial.print(chipSelectPin);
     Serial.print("]\n");
     
-    initialised = SD.begin(chipSelectPin);
+    initialised = SD.begin();
    
     if (initialised) {
         Serial.println("[SD] Card initialised.");
